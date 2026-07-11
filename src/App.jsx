@@ -2,7 +2,7 @@
 // import Typography from "@mui/material/Typography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import Layout from "./Components/Layout/Layout";
 import Home from "./Pages/Home/Home";
 import Products from "./Components/Products/Products";
@@ -16,7 +16,7 @@ import ProtectedPage from "./Components/ProtectedPage/ProtectedPage";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 
 
-const router = createBrowserRouter([{
+const router = createHashRouter([{
   path: '',element: <Layout/> ,children: [
     {index: true, element: <Register/>},
     {path: 'signin', element: <SignIn/>},
