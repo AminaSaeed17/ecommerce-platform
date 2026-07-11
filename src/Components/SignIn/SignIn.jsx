@@ -2,6 +2,7 @@ import {
   Alert,
   Button,
   Container,
+  Link,
   Stack,
   TextField,
   Typography,
@@ -9,7 +10,7 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 // import { mockLogin } from "../../api/mockApiLogin";
 import axios from "axios";
@@ -147,6 +148,9 @@ export default function SignIn() {
         ></Button> : <Button variant="contained" type="submit">
             LogIn
           </Button>}
+          <Link
+// @ts-ignore
+          Link component={NavLink} to={'/forgetPass'} sx={{textDecoration: "none", textAlign: "center"}}>forget Password?</Link>
         </Stack>
       </Container>
     </>

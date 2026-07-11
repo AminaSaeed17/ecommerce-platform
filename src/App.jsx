@@ -14,12 +14,19 @@ import SignIn from "./Components/SignIn/SignIn";
 import UserContextProvider from "./Components/Context/UserContext";
 import ProtectedPage from "./Components/ProtectedPage/ProtectedPage";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import ForgetPass from "./Components/ForgetPass/ForgetPass";
+// import ResetPass from "./Components/ResetPass/ResetPass";
+import VerifyCode from "./Components/VerifyCode/VerifyCode";
+import ResetPassword from "./Components/ResetPass/ResetPass";
 
 
 const router = createHashRouter([{
   path: '',element: <Layout/> ,children: [
     {index: true, element: <Register/>},
     {path: 'signin', element: <SignIn/>},
+    {path: 'forgetPass', element: <ForgetPass/>},
+    {path: 'verifyCode', element: <VerifyCode/>},
+    {path: 'ResetPass', element: <ResetPassword/>},
     {path: 'protectedPage', element: <ProtectedPage/>},
     {path: 'home', element: <ProtectedRoute><Home/></ProtectedRoute>},
     {path: 'products', element: <ProtectedRoute><Products/></ProtectedRoute>},
