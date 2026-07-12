@@ -18,6 +18,7 @@ import ForgetPass from "./Components/ForgetPass/ForgetPass";
 // import ResetPass from "./Components/ResetPass/ResetPass";
 import VerifyCode from "./Components/VerifyCode/VerifyCode";
 import ResetPassword from "./Components/ResetPass/ResetPass";
+import ProductContextProvider from "./Components/Context/ProductContext";
 
 
 const router = createHashRouter([{
@@ -40,7 +41,8 @@ function App() {
   const [theme, colorMode] = useMode();
   return (
 
-    <UserContextProvider>
+    <ProductContextProvider>
+       <UserContextProvider>
     <ColorModeContext.Provider 
 // @ts-ignore
      value={colorMode}>
@@ -52,6 +54,8 @@ function App() {
       </ThemeProvider>
     </ColorModeContext.Provider>
   </UserContextProvider>
+    </ProductContextProvider>
+   
 
     
   )
