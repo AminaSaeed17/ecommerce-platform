@@ -38,7 +38,7 @@ export default function Categories() {
           <Card
             key={item._id}
             sx={{
-              maxWidth: 280,
+              maxWidth: 333,
               borderRadius: 3,
               overflow: "hidden",
               boxShadow: "0 4px 12px rgba(0,0,0,0.08)",

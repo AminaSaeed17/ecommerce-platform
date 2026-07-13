@@ -21,12 +21,14 @@ import { Close } from "@mui/icons-material";
 import ProductDetails from "./ProductDetails";
 import { productContext } from "../Context/ProductContext";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
 
 export default function Main() {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(1);
-  let { products } = useContext(productContext);
+  let { products, loading } = useContext(productContext);
   const itemsPerPage = 6;
 
   const startIndex = (page - 1) * itemsPerPage;
@@ -35,6 +37,7 @@ export default function Main() {
   const currentProducts = products.slice(startIndex, endIndex);
 
   const theme = useTheme();
+  const navigate = useNavigate();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,6 +46,7 @@ export default function Main() {
   const handleClose = () => {
     setOpen(false);
   };
+
 
   return (
     <>
@@ -63,15 +67,18 @@ export default function Main() {
             </Typography>
           </Box>
         </Stack>
-        <Stack
+        {loading? <Loading/> : <>
+          <Stack
           direction="row"
           sx={{ pt: 6, justifyContent: "center", flexWrap: "wrap", gap: 3 }}
         >
           {currentProducts.map((item) => (
             <Card
               key={item}
+              onClick={()=> navigate(`/product/${item.id}`)}
               sx={{
                 maxWidth: 333,
+                cursor: "pointer",
                 "&:hover .MuiCardMedia-root": {
                   rotate: "1deg",
                   scale: 1.05,
@@ -145,6 +152,9 @@ export default function Main() {
             </Button>
           </ToggleButtonGroup>
         </Stack>
+        </>
+        }
+        
         <Dialog
           sx={{ ".MuiPaper-root": { minWidth: { xs: "100%", md: 800 } } }}
           open={open}

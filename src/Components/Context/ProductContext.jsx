@@ -8,11 +8,12 @@ export const productContext = createContext();
 export default function ProductContextProvider({children}) {
 
     let [products ,setProducts] = useState([]);
+    let [loading ,setLoading] = useState(true);
 
     async function getProducts(){
         let {data} = await axios.get('https://ecommerce.routemisr.com/api/v1/products')
-        console.log(data)
         setProducts(data.data);
+        setLoading(false)
     }
 
     useEffect(()=>{
@@ -21,7 +22,7 @@ export default function ProductContextProvider({children}) {
     },[])
 
   return <>
-    <productContext.Provider value={{products}}>
+    <productContext.Provider value={{products,loading}}>
         {children}
     </productContext.Provider>
   </>

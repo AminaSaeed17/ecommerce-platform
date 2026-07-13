@@ -13,12 +13,15 @@ import {
 import { productContext } from "../Context/ProductContext";
 import { useContext, useState } from "react";
 import { AddShoppingCartOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
+import Loading from "../Loading/Loading";
 
 export default function Products() {
-  let { products } = useContext(productContext);
+  let { products, loading } = useContext(productContext);
   // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
+  let navigate = useNavigate()
   const itemsPerPage = 6;
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -33,7 +36,8 @@ export default function Products() {
 
   return (
     <>
-      <Container sx={{py: 9}}>
+      {loading? <Loading/> : <>
+        <Container sx={{py: 9}}>
         <Stack
             direction="row"
             sx={{ pt: 6,justifyContent: "center", flexWrap: "wrap", gap: 3 }}
@@ -45,6 +49,7 @@ export default function Products() {
           ) => (
             <Card
               key={item}
+              onClick={()=> navigate(`/product/${item.id}`)}
               sx={{
                 maxWidth: 333,
                 "&:hover .MuiCardMedia-root": {
@@ -100,6 +105,7 @@ export default function Products() {
           <Pagination count={Math.ceil(products.length / itemsPerPage)} page={page} onChange={handleChange} />
         </Stack>
       </Container>
+      </>}
     </>
   );
 }

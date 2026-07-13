@@ -41,7 +41,6 @@ export default function ForgetPass() {
       });
     } catch (err) {
         setLoading(false);
-      console.log(err);
       setApiError(err.response.data.message)
     }
   }

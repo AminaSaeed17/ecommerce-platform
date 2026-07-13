@@ -19,6 +19,8 @@ import ForgetPass from "./Components/ForgetPass/ForgetPass";
 import VerifyCode from "./Components/VerifyCode/VerifyCode";
 import ResetPassword from "./Components/ResetPass/ResetPass";
 import ProductContextProvider from "./Components/Context/ProductContext";
+import CategoryProducts from "./Components/CategoryProducts/CategoryProducts";
+import ProductDetails from "./Components/ProductDetails/ProductDetails";
 
 
 const router = createHashRouter([{
@@ -34,6 +36,8 @@ const router = createHashRouter([{
     {path: 'brands', element: <ProtectedRoute><Brands/></ProtectedRoute>},
     {path: 'category', element: <ProtectedRoute><Categories/></ProtectedRoute>},
     {path: 'cart', element: <ProtectedRoute><Cart/></ProtectedRoute>},
+    {path: '/category/:id', element: <ProtectedRoute><CategoryProducts/></ProtectedRoute>},
+    {path: '/product/:id', element: <ProtectedRoute><ProductDetails/></ProtectedRoute>},
   ]
 }])
 
@@ -55,9 +59,6 @@ function App() {
     </ColorModeContext.Provider>
   </UserContextProvider>
     </ProductContextProvider>
-   
-
-    
   )
 }
 
