@@ -18,17 +18,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import AddShoppingCartOutlined from "@mui/icons-material/AddShoppingCartOutlined";
 import { Close } from "@mui/icons-material";
-import ProductDetails from "./ProductDetails";
 import { productContext } from "../Context/ProductContext";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
+import MainSlider from "./MainSlider";
+import { cartContext } from "../Context/CartContext";
 
 export default function Main() {
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(1);
   let { products, loading } = useContext(productContext);
+  let { addProductToCart } = useContext(cartContext);
   const itemsPerPage = 6;
 
   const startIndex = (page - 1) * itemsPerPage;
@@ -39,10 +41,6 @@ export default function Main() {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };
@@ -51,6 +49,7 @@ export default function Main() {
   return (
     <>
       <Container sx={{ px: "0 !important", py: 9 }}>
+        <MainSlider/>
         <Stack
           sx={{
             flexDirection: "row",
@@ -58,6 +57,7 @@ export default function Main() {
             alignItems: "center",
             flexWrap: "wrap",
             gap: 3,
+            mt: 9,
           }}
         >
           <Box>
@@ -109,7 +109,10 @@ export default function Main() {
                 sx={{ alignItems: "center", justifyContent: "space-between" }}
               >
                 <Button
-                  onClick={handleClickOpen}
+                  onClick={(e) => {
+                          e.stopPropagation();
+                          addProductToCart(item._id);
+                        }}
                   size="small"
                   startIcon={<AddShoppingCartOutlined />}
                 >
@@ -176,7 +179,6 @@ export default function Main() {
           >
             <Close />
           </IconButton>
-          <ProductDetails />
         </Dialog>
       </Container>
     </>

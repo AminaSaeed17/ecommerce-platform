@@ -1,4 +1,3 @@
-
 // import Typography from "@mui/material/Typography";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
@@ -21,45 +20,106 @@ import ResetPassword from "./Components/ResetPass/ResetPass";
 import ProductContextProvider from "./Components/Context/ProductContext";
 import CategoryProducts from "./Components/CategoryProducts/CategoryProducts";
 import ProductDetails from "./Components/ProductDetails/ProductDetails";
+import CategoryContextProvider from "./Components/Context/CategoryContext";
+import CartContextProvider from "./Components/Context/CartContext";
+import { Toaster } from "react-hot-toast";
 
-
-const router = createHashRouter([{
-  path: '',element: <Layout/> ,children: [
-    {index: true, element: <Register/>},
-    {path: 'signin', element: <SignIn/>},
-    {path: 'forgetPass', element: <ForgetPass/>},
-    {path: 'verifyCode', element: <VerifyCode/>},
-    {path: 'ResetPass', element: <ResetPassword/>},
-    {path: 'protectedPage', element: <ProtectedPage/>},
-    {path: 'home', element: <ProtectedRoute><Home/></ProtectedRoute>},
-    {path: 'products', element: <ProtectedRoute><Products/></ProtectedRoute>},
-    {path: 'brands', element: <ProtectedRoute><Brands/></ProtectedRoute>},
-    {path: 'category', element: <ProtectedRoute><Categories/></ProtectedRoute>},
-    {path: 'cart', element: <ProtectedRoute><Cart/></ProtectedRoute>},
-    {path: '/category/:id', element: <ProtectedRoute><CategoryProducts/></ProtectedRoute>},
-    {path: '/product/:id', element: <ProtectedRoute><ProductDetails/></ProtectedRoute>},
-  ]
-}])
+const router = createHashRouter([
+  {
+    path: "",
+    element: <Layout />,
+    children: [
+      { index: true, element: <Register /> },
+      { path: "signin", element: <SignIn /> },
+      { path: "forgetPass", element: <ForgetPass /> },
+      { path: "verifyCode", element: <VerifyCode /> },
+      { path: "ResetPass", element: <ResetPassword /> },
+      { path: "protectedPage", element: <ProtectedPage /> },
+      {
+        path: "home",
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "products",
+        element: (
+          <ProtectedRoute>
+            <Products />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "brands",
+        element: (
+          <ProtectedRoute>
+            <Brands />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "category",
+        element: (
+          <ProtectedRoute>
+            <Categories />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "cart",
+        element: (
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/category/:id",
+        element: (
+          <ProtectedRoute>
+            <CategoryProducts />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/product/:id",
+        element: (
+          <ProtectedRoute>
+            <ProductDetails />
+          </ProtectedRoute>
+        ),
+      },
+    ],
+  },
+]);
 
 function App() {
   const [theme, colorMode] = useMode();
   return (
-
-    <ProductContextProvider>
-       <UserContextProvider>
-    <ColorModeContext.Provider 
-// @ts-ignore
-     value={colorMode}>
-      <ThemeProvider 
-// @ts-ignore
-      theme={theme}>
-        <CssBaseline />
-        <RouterProvider router={router} />
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-  </UserContextProvider>
-    </ProductContextProvider>
-  )
+    <CartContextProvider>
+      <CategoryContextProvider>
+        <ProductContextProvider>
+          <UserContextProvider>
+            <ColorModeContext.Provider
+              // @ts-ignore
+              value={colorMode}
+            >
+              <ThemeProvider
+                // @ts-ignore
+                theme={theme}
+              >
+                <CssBaseline />
+                <RouterProvider router={router} />
+                <Toaster/>
+              </ThemeProvider>
+            </ColorModeContext.Provider>
+          </UserContextProvider>
+        </ProductContextProvider>
+      </CategoryContextProvider>
+    </CartContextProvider>
+  );
 }
 
-export default App
+export default App;

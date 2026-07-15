@@ -11,19 +11,26 @@ import {
   Typography,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import Loading from "../Loading/Loading";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { cartContext } from "../Context/CartContext";
 
 export default function CategoryProducts() {
   let [products, setProducts] = useState([]);
+  let [loading, setLoading] = useState(true);
+  const {addProductToCart} = useContext(cartContext);
   // @ts-ignore
 
   const { id } = useParams();
+  const navigate = useNavigate();
   async function getCategoryProduct() {
     let { data } = await axios.get(
       `https://ecommerce.routemisr.com/api/v1/products?category[in]=${id}`,
     );
     setProducts(data.data);
+    setLoading(false);
   }
 
   useEffect(() => {
@@ -34,7 +41,8 @@ export default function CategoryProducts() {
 
   return (
     <>
-      <Container>
+      {loading? <Loading/> : <>
+        <Container>
         <Stack
           direction="row"
           sx={{ pt: 6, justifyContent: "center", flexWrap: "wrap", gap: 3 }}
@@ -47,6 +55,8 @@ export default function CategoryProducts() {
               <Card
                 // @ts-ignore
                 key={item._id}
+                // @ts-ignore
+                onClick={()=> navigate(`/product/${item._id}`)}
                 sx={{
                   maxWidth: 333,
                   "&:hover .MuiCardMedia-root": {
@@ -92,7 +102,11 @@ export default function CategoryProducts() {
                 <CardActions
                   sx={{ alignItems: "center", justifyContent: "space-between" }}
                 >
-                  <Button size="small" startIcon={<AddShoppingCartOutlined />}>
+                  <Button onClick={(e) => {
+                          e.stopPropagation();
+                          // @ts-ignore
+                          addProductToCart(item._id);
+                        }} size="small" startIcon={<AddShoppingCartOutlined />}>
                     Add to Cart
                   </Button>
                   <Button size="small">
@@ -110,6 +124,7 @@ export default function CategoryProducts() {
           )}
         </Stack>
       </Container>
+      </> }
     </>
   );
 }

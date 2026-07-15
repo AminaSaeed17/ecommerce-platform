@@ -9,20 +9,23 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import SliderPackage from "react-slick";
 import Loading from "../Loading/Loading";
 import CategoryProducts from "../CategoryProducts/CategoryProducts";
+import { cartContext } from "../Context/CartContext";
 
 const Slider = SliderPackage.default || SliderPackage;
 
 export default function ProductDetails() {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
+  const {addProductToCart} = useContext(cartContext);
   const { id } = useParams();
   let theme = useTheme();
+  
 
   async function getProductDetails(productId) {
     let { data } = await axios.get(
@@ -127,6 +130,7 @@ export default function ProductDetails() {
 
           <Button
             fullWidth
+            onClick={()=> addProductToCart(product._id)}
             variant="contained"
             sx={{
               py: 1.5,
