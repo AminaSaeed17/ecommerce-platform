@@ -14,6 +14,7 @@ import * as Yup from "yup";
 // import { mockRegister } from "../../api/mockApiRegister";
 import axios from "axios";
 import { userContext } from "../Context/UserContext";
+import toast from "react-hot-toast";
 
 export default function Register() {
   const theme = useTheme();
@@ -45,6 +46,8 @@ export default function Register() {
     } catch (err) {
       console.log(err);
       setLoading(false);
+      // @ts-ignore
+      toast.error(err.message);
       // @ts-ignore
       setApiError(err.response.data.message);
       // @ts-ignore

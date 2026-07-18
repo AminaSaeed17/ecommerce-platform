@@ -12,13 +12,14 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { styled } from "@mui/material/styles";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import { NavLink } from "react-router-dom";
+import { cartContext } from "../Context/CartContext";
 
 const Search = styled("div")(({ theme }) => ({
   flexGrow: 0.4,
@@ -76,6 +77,7 @@ const options = ["All Categories", "CAR", "Clothes", "Electronics"];
 export default function Header2() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const {cart} = useContext(cartContext);
   const open = Boolean(anchorEl);
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
@@ -91,7 +93,6 @@ export default function Header2() {
   };
 
   const theme = useTheme();
-
   return <> 
     <Container sx={{my:3, display: "flex", justifyContent: "space-between", alignItems: "center"}}>
       <Stack sx={{alignItems: "center" }} spacing={1}>
@@ -170,7 +171,7 @@ export default function Header2() {
       </Search>
       <Stack direction="row" spacing={1}>
          <IconButton aria-label="cart">
-          <StyledBadge badgeContent={4} color="primary">
+          <StyledBadge badgeContent={cart?.numOfCartItems } color="primary">
             <Link component={NavLink} to={'/cart'}><ShoppingCart/></Link>
           </StyledBadge>
         </IconButton>

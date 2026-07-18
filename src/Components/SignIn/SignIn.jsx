@@ -15,6 +15,7 @@ import * as Yup from "yup";
 // import { mockLogin } from "../../api/mockApiLogin";
 import axios from "axios";
 import { userContext } from "../Context/UserContext";
+import toast from "react-hot-toast";
 
 export default function SignIn() {
   const theme = useTheme();
@@ -37,6 +38,8 @@ export default function SignIn() {
     navigate("/home");
     } catch (err) {
       console.log(err);
+      // @ts-ignore
+      toast.error(err.message)
       // @ts-ignore
       setApiError(err.response.data.message);
       setLoading(false);
