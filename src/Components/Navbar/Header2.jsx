@@ -171,7 +171,7 @@ export default function Header2() {
       </Search>
       <Stack direction="row" spacing={1}>
          <IconButton aria-label="cart">
-          <StyledBadge badgeContent={cart?.numOfCartItems } color="primary">
+          <StyledBadge badgeContent={cart?.numOfCartItems} color="primary">
             <Link component={NavLink} to={'/cart'}><ShoppingCart/></Link>
           </StyledBadge>
         </IconButton>

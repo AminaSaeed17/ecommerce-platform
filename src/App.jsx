@@ -23,6 +23,7 @@ import ProductDetails from "./Components/ProductDetails/ProductDetails";
 import CategoryContextProvider from "./Components/Context/CategoryContext";
 import CartContextProvider from "./Components/Context/CartContext";
 import { Toaster } from "react-hot-toast";
+import Checkout from "./Components/Checkout/Checkout";
 
 const router = createHashRouter([
   {
@@ -88,6 +89,14 @@ const router = createHashRouter([
         element: (
           <ProtectedRoute>
             <ProductDetails />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/checkout",
+        element: (
+          <ProtectedRoute>
+            <Checkout/>
           </ProtectedRoute>
         ),
       },

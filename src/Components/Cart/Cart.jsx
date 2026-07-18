@@ -13,11 +13,13 @@ import {
   Button,
   Box,
   Container,
+  Stack,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { cartContext } from "../Context/CartContext";
 import Loading from "../Loading/Loading";
+import { Link } from "react-router-dom";
 
     export default function Cart() {
       // const [products, setProducts] = useState(initialProducts);
@@ -116,7 +118,10 @@ import Loading from "../Loading/Loading";
         </TableBody>
       </Table>
     </TableContainer>
-
+    <Stack direction={'row'} sx={{justifyContent: 'space-between'}}>
+      <Typography>totalCartPrice: {cart?.data?.totalCartPrice} </Typography>
+      <Button component={Link} to={'/Checkout'} variant="contained">checkOut</Button>
+    </Stack>
     </Container>}
   </>
 }
