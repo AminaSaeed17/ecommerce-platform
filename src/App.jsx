@@ -24,6 +24,7 @@ import CategoryContextProvider from "./Components/Context/CategoryContext";
 import CartContextProvider from "./Components/Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Checkout from "./Components/Checkout/Checkout";
+import { QueryClient, QueryClientProvider} from '@tanstack/react-query'
 
 const router = createHashRouter([
   {
@@ -104,10 +105,13 @@ const router = createHashRouter([
   },
 ]);
 
+const query= new QueryClient()
+
 function App() {
   const [theme, colorMode] = useMode();
   return (
-    <CartContextProvider>
+    <QueryClientProvider client={query}>
+      <CartContextProvider>
       <CategoryContextProvider>
         <ProductContextProvider>
           <UserContextProvider>
@@ -128,6 +132,8 @@ function App() {
         </ProductContextProvider>
       </CategoryContextProvider>
     </CartContextProvider>
+    </QueryClientProvider>
+    
   );
 }
 

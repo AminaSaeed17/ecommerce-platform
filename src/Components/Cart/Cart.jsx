@@ -14,6 +14,7 @@ import {
   Box,
   Container,
   Stack,
+  useTheme,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -25,15 +26,17 @@ import { Link } from "react-router-dom";
       // const [products, setProducts] = useState(initialProducts);
       const {cart, loading, updateProductCart, deleteProductCart} = useContext(cartContext);
       console.log(cart?.data)
+
+      const theme = useTheme();
       
  
 
   return <>
-    {loading? <Loading/> : <Container>
+    {loading? <Loading/> : <Container sx={{my: 8}}>
       <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 1 }}>
       <Table sx={{ minWidth: 650 }} aria-label="cart table">
         <TableHead>
-          <TableRow sx={{ backgroundColor: "grey.100" }}>
+          <TableRow sx={{ bgcolor: theme.palette.mainColor.main,}}>
             <TableCell />
             <TableCell sx={{ fontWeight: 600 }}>Product</TableCell>
             <TableCell sx={{ fontWeight: 600 }}>Qty</TableCell>
@@ -99,7 +102,7 @@ import { Link } from "react-router-dom";
 
               <TableCell>
                 <Typography variant="subtitle2" fontWeight={600}>
-                  ${product.price}
+                  {product.price} $
                 </Typography>
               </TableCell>
 
@@ -118,8 +121,8 @@ import { Link } from "react-router-dom";
         </TableBody>
       </Table>
     </TableContainer>
-    <Stack direction={'row'} sx={{justifyContent: 'space-between'}}>
-      <Typography>totalCartPrice: {cart?.data?.totalCartPrice} </Typography>
+    <Stack direction={'row'} sx={{justifyContent: 'space-between', mt: 4}}>
+      <Typography>totalCartPrice: {cart?.data?.totalCartPrice} $</Typography>
       <Button component={Link} to={'/Checkout'} variant="contained">checkOut</Button>
     </Stack>
     </Container>}

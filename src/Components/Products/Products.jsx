@@ -10,32 +10,49 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import { productContext } from "../Context/ProductContext";
-import { useContext, useState } from "react";
+// import { productContext } from "../Context/ProductContext";
+import { useContext, useEffect, useState } from "react";
 import { AddShoppingCartOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import Loading from "../Loading/Loading";
 import { cartContext } from "../Context/CartContext";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 export default function Products() {
-  let { products, loading } = useContext(productContext);
+  // let { products} = useContext(productContext);
   let { addProductToCart } = useContext(cartContext);
   // eslint-disable-next-line no-unused-vars
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(1);
   let navigate = useNavigate();
+
+  function getProducts() {
+    return axios.get("https://ecommerce.routemisr.com/api/v1/products");
+  }
+  let { data, isLoading } = useQuery({
+    queryKey: ["recentProduct"],
+    queryFn: getProducts,
+  });
+
   const itemsPerPage = 6;
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const currentProducts = products.slice(startIndex, endIndex);
   // @ts-ignore
   const handleChange = (event, value) => {
     setPage(value);
   };
+  const currentProducts = data?.data.data.slice(startIndex, endIndex);
+
+  console.log(data?.data.data);
+
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   return (
     <>
-      {loading ? (
+      {isLoading ? (
         <Loading />
       ) : (
         <>
@@ -117,7 +134,7 @@ export default function Products() {
             </Stack>
             <Stack spacing={2} sx={{ alignItems: "center", mt: 4 }}>
               <Pagination
-                count={Math.ceil(products.length / itemsPerPage)}
+                count={Math.ceil(data?.data.data.length / itemsPerPage)}
                 page={page}
                 onChange={handleChange}
               />

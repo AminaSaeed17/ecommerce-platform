@@ -5,13 +5,15 @@ export default function Footer() {
     <Box
       sx={{
         bgcolor: "#2B3445",
+        
         py: 1.3,
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
       }}
     >
-      <Typography sx={{ display: "flex", justifyContent: "center", alignItems: "center, fontSize: 18" }}
-        color={"HighlightText"}
+      <Typography sx={{color: "white",display: "flex", justifyContent: "center",alignContent: "center" ,alignItems: "center, fontSize: 18" }}
+        // color={"HighlightText"}
+        
         variant="h6"
       >
         Designed and developed by
@@ -23,7 +25,7 @@ export default function Footer() {
             color: "#ff7790",
           }}
           variant="text"
-          color="primary"
+          // color="primary"
         >
           Amina Saeed
         </Button>

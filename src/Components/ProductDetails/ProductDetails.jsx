@@ -10,29 +10,43 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import SliderPackage from "react-slick";
 import Loading from "../Loading/Loading";
-import CategoryProducts from "../CategoryProducts/CategoryProducts";
+// import CategoryProducts from "../CategoryProducts/CategoryProducts";
 import { cartContext } from "../Context/CartContext";
 
 const Slider = SliderPackage.default || SliderPackage;
 
 export default function ProductDetails() {
-  const [product, setProduct] = useState([]);
+  const [product, setProduct] = useState(null);
+  const [relatedProduct, setRelatedProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const {addProductToCart} = useContext(cartContext);
   const { id } = useParams();
   let theme = useTheme();
-  
+  const navigate = useNavigate();
+
 
   async function getProductDetails(productId) {
     let { data } = await axios.get(
       `https://ecommerce.routemisr.com/api/v1/products/${productId}`,
     );
-    setLoading(false);
     setProduct(data.data);
+    getRelatedWork(data?.data?.category._id,data?.data?._id)
+    setLoading(false);
+  }
+  async function getRelatedWork(categoryId, productId) {
+    let { data } = await axios.get(
+      `https://ecommerce.routemisr.com/api/v1/products?category=${categoryId}`,
+    );
+     const relatedProducts = data.data.filter(
+    (product) => product._id !== productId
+  );
+  setRelatedProduct(relatedProducts);
+  console.log(relatedProducts)
+  setLoading(false);
   }
   const settings = {
     dots: false,
@@ -44,9 +58,21 @@ export default function ProductDetails() {
     autoplaySpeed:2000
   };
 
+  const settings2 = {
+    dots: false,
+    infinite: true,
+    speed: 100,
+    slidesToShow: 7,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed:2000,
+    arrows: false
+  }
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getProductDetails(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   return <>
@@ -151,7 +177,28 @@ export default function ProductDetails() {
           </Button>
         </Box>
       </Stack>
-      <CategoryProducts/>
+      <Box sx={{pt: 7}}>
+        <Typography variant="h4">
+          Related Products
+        </Typography>
+        <Slider {...settings2}>
+            {relatedProduct.map((item, index)=> (
+        <Box onClick={() => navigate(`/product/${item.id}`)} sx={{cursor: "pointer", border: 'none'}} key={index}>
+                <img
+                  src={item?.imageCover}
+                  alt={product.title}
+                  style={{
+                    width: "100%",
+                    height: "320px",
+                    borderRadius: 12,
+                    objectFit: "contain",
+                  }}
+                />
+                <Typography>{item.title.split(" ",2).join(" ")}</Typography>
+              </Box>
+      ))}
+      </Slider>
+      </Box>
     </Container>
       </>}
   </>

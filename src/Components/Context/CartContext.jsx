@@ -86,7 +86,7 @@ export default function CartContextProvider({children}) {
       }}
     );
     setToCart(data);
-    console.log(data.data)
+    // console.log(data.data)
     setLoading(false);
     toast.success(data.status)
         } catch(err){
